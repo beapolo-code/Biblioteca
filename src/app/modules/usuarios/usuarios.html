@@ -1,0 +1,122 @@
+<div class="flex flex-col flex-auto min-w-0 p-6 space-y-6 bg-slate-50/50 min-h-screen">
+
+    <!-- Encabezado del Módulo -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+        <div>
+            <div class="flex items-center space-x-2 text-xs font-semibold text-blue-600 uppercase tracking-wider mb-1">
+                <span>Administración</span>
+                <span>/</span>
+                <span>Seguridad</span>
+            </div>
+            <h1 class="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">Gestión de Usuarios</h1>
+            <p class="text-sm text-slate-500 mt-1">Control total de accesos, asignación de roles y monitoreo de cuentas registradas en el sistema.</p>
+        </div>
+        
+        <!-- Botón "Nuevo Usuario" con SVG Puro -->
+        <button class="inline-flex items-center justify-center space-x-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold tracking-wide rounded-xl shadow-md shadow-blue-500/20 hover:shadow-lg transition-all duration-200 shrink-0 w-full sm:w-auto text-sm border-0 cursor-pointer">
+            <svg class="w-5 h-5 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://w3.org">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+            </svg>
+            <span>Nuevo Usuario</span>
+        </button>
+    </div>
+
+    <!-- Barra de Herramientas: Buscador y Filtros Rápidos -->
+    <div class="flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl border border-slate-100 shadow-sm w-full">
+        <!-- Buscador Optimizado -->
+        <div class="w-full md:w-2/5 relative">
+            <mat-form-field appearance="outline" class="w-full !mb-0" subscriptSizing="dynamic">
+                <mat-label>Buscar usuario...</mat-label>
+                <input matInput placeholder="Escribe un nombre o correo electrónico">
+            </mat-form-field>
+        </div>
+
+        <!-- Indicador de Estados Rápido -->
+        <div class="flex flex-wrap gap-2 w-full md:w-auto justify-start md:justify-end text-xs">
+            <span class="px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg font-medium">Total: 3 usuarios</span>
+            <span class="px-3 py-1.5 bg-green-50 text-green-700 rounded-lg font-medium">2 Activos</span>
+            <span class="px-3 py-1.5 bg-red-50 text-red-700 rounded-lg font-medium">1 Inactivo</span>
+        </div>
+    </div>
+
+    <!-- Contenedor de la Tabla con MatCard Enriquecido -->
+    <mat-card class="overflow-hidden !rounded-2xl border border-slate-100 shadow-sm bg-white">
+        <div class="overflow-x-auto">
+            <table mat-table [dataSource]="dataSource" class="w-full mat-table-custom">
+
+                <!-- Columna ID -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef class="!text-slate-400 uppercase tracking-wider text-xs font-bold py-4 px-6 bg-slate-50/70"> ID </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6 text-slate-500 font-mono text-sm"> #{{element.id}} </td>
+                </ng-container>
+
+                <!-- Columna Nombre -->
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef class="!text-slate-400 uppercase tracking-wider text-xs font-bold py-4 px-6 bg-slate-50/70"> Nombre Completo </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-9 h-9 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-sm border border-slate-200 uppercase shrink-0">
+                                {{ element.nombre.substring(0,2) }}
+                            </div>
+                            <span class="font-semibold text-slate-800 text-sm tracking-tight">{{element.nombre}}</span>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- Columna Correo -->
+                <ng-container matColumnDef="correo">
+                    <th mat-header-cell *matHeaderCellDef class="!text-slate-400 uppercase tracking-wider text-xs font-bold py-4 px-6 bg-slate-50/70"> Correo Electrónico </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6 text-slate-600 text-sm"> {{element.correo}} </td>
+                </ng-container>
+
+                <!-- Columna Rol -->
+                <ng-container matColumnDef="rol">
+                    <th mat-header-cell *matHeaderCellDef class="!text-slate-400 uppercase tracking-wider text-xs font-bold py-4 px-6 bg-slate-50/70"> Rol asignado </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6">
+                        <span [ngClass]="element.rol === 'Administrador' ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : 'bg-sky-50 text-sky-700 border-sky-100'"
+                              class="text-xs font-medium px-3 py-1 rounded-full border">
+                            {{element.rol}}
+                        </span>
+                    </td>
+                </ng-container>
+
+                <!-- Columna Estado -->
+                <ng-container matColumnDef="estado">
+                    <th mat-header-cell *matHeaderCellDef class="!text-slate-400 uppercase tracking-wider text-xs font-bold py-4 px-6 bg-slate-50/70"> Estado </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6">
+                        <span [ngClass]="element.estado === 'Activo' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-rose-50 text-rose-700 border-rose-200'"
+                              class="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full border">
+                            <span [ngClass]="element.estado === 'Activo' ? 'bg-emerald-500' : 'bg-rose-500'" class="w-1.5 h-1.5 rounded-full mr-1.5"></span>
+                            {{element.estado}}
+                        </span>
+                    </td>
+                </ng-container>
+
+                <!-- Columna Acciones con SVG Nativos -->
+                <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef class="!text-slate-400 uppercase tracking-wider text-xs font-bold py-4 px-6 bg-slate-50/70 text-right"> Acciones </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6 text-right whitespace-nowrap">
+                        <div class="inline-flex items-center justify-end space-x-2">
+                            <!-- Botón Editar con SVG -->
+                            <button title="Editar datos" class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 border-0 cursor-pointer transition-colors duration-150">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://w3.org">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
+                            </button>
+                            <!-- Botón Bloquear con SVG -->
+                            <button title="Desactivar o Eliminar usuario" class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border-0 cursor-pointer transition-colors duration-150">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://w3.org">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- Configuración Estructural de Filas -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns" class="border-b border-slate-200 h-12"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="hover:bg-slate-50/80 transition-colors duration-150 border-b border-slate-100 last:border-0"></tr>
+            </table>
+        </div>
+    </mat-card>
+</div>
