@@ -1,0 +1,52 @@
+<div class="p-6">
+
+    <!-- TÍTULO -->
+    <div class="mb-6">
+
+        <h1 class="text-3xl font-bold">
+            Categorías
+        </h1>
+
+        <p class="text-secondary">
+            Selecciona una categoría para ver sus libros
+        </p>
+
+    </div>
+
+
+    <!-- CATEGORÍAS -->
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+        @for (category of categories(); track category) {
+
+            <button
+                mat-stroked-button
+                class="h-auto min-h-24 justify-start p-4 text-left"
+                (click)="goToCategory(category)"
+            >
+
+                <div class="flex items-center gap-3">
+
+                    <span class="text-4xl">📁</span>
+
+                    <div>
+
+                        <div class="font-semibold">
+                            {{ category }}
+                        </div>
+
+                        <div class="text-sm text-secondary">
+                            Ver libros
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </button>
+
+        }
+
+    </div>
+
+</div>
