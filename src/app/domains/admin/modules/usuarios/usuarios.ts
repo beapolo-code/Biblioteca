@@ -11,12 +11,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 
+// INTERFAZ OFICIAL CON LOS CAMPOS EXACTOS DE POSTGRES
 interface Usuario {
-  id: number;
-  nombre: string;
-  correo: string;
-  rol: string;
-  estado: 'Activo' | 'Inactivo';
+  id: string;          
+  name: string;        
+  email: string;       
+  role: string;        
+  is_active: boolean;  
 }
 
 @Component({
@@ -38,32 +39,34 @@ interface Usuario {
   encapsulation: ViewEncapsulation.None
 })
 export class UsuariosComponent {
-  displayedColumns: string[] = ['id', 'nombre', 'correo', 'rol', 'estado', 'acciones'];
+  // Columnas oficiales que se van a mapear en el HTML
+  displayedColumns: string[] = ['id', 'name', 'email', 'role', 'is_active', 'acciones'];
 
-  // Datos dinámicos iniciales (Mocks reactivos)
+  // DATOS DINÁMICOS ADAPTADOS A LOS CAMPOS REALES DE POSTGRES
   usuariosLista = signal<Usuario[]>([
-    { id: 1, nombre: 'Alexander García', correo: 'alexander6621@gmail.com', rol: 'Administrador', estado: 'Activo' },
-    { id: 2, nombre: 'María López', correo: 'mlopez@dominio.com', rol: 'Estudiante', estado: 'Activo' },
-    { id: 3, nombre: 'Carlos Ruiz', correo: 'cruiz@dominio.com', rol: 'Estudiante', estado: 'Inactivo' }
+    { id: '1', name: 'Alexander García', email: 'alexander6621@gmail.com', role: 'Administrador', is_active: true },
+    { id: '2', name: 'María López', email: 'mlopez@dominio.com', role: 'Estudiante', is_active: true },
+    { id: '3', name: 'Carlos Ruiz', email: 'cruiz@dominio.com', role: 'Estudiante', is_active: false }
   ]);
 
   filtroBusqueda = signal<string>('');
   
-  nuevoNombre = signal<string>('');
-  nuevoCorreo = signal<string>('');
-  nuevoRol = signal<string>('Estudiante');
+  // Variables reactivas enlazadas a los formularios
+  nuevoName = signal<string>('');
+  nuevoEmail = signal<string>('');
+  nuevoRole = signal<string>('Estudiante');
   mostrarFormulario = signal<boolean>(false);
-  usuarioEnEdicionId = signal<number | null>(null); // Señal para controlar la edición
+  usuarioEnEdicionId = signal<string | null>(null);
 
-  // Getter computado reactivo para filtrar la tabla al escribir
+  // Getter reactivo para el filtrado en tiempo real
   get usuariosFiltrados() {
     const buscar = this.filtroBusqueda().toLowerCase();
     if (!buscar) return this.usuariosLista();
     
     return this.usuariosLista().filter(u => 
-      u.nombre.toLowerCase().includes(buscar) || 
-      u.correo.toLowerCase().includes(buscar) ||
-      u.rol.toLowerCase().includes(buscar)
+      u.name.toLowerCase().includes(buscar) || 
+      u.email.toLowerCase().includes(buscar) ||
+      u.role.toLowerCase().includes(buscar)
     );
   }
 
@@ -75,16 +78,12 @@ export class UsuariosComponent {
   conmutarFormulario() {
     this.mostrarFormulario.update(valor => !valor);
     if (!this.mostrarFormulario()) {
-      // Si cierran el formulario, limpiamos los datos
-      this.nuevoNombre.set('');
-      this.nuevoCorreo.set('');
-      this.nuevoRol.set('Estudiante');
-      this.usuarioEnEdicionId.set(null);
+      this.limpiarFormulario();
     }
   }
 
   guardarUsuario() {
-    if (!this.nuevoNombre() || !this.nuevoCorreo()) return;
+    if (!this.nuevoName() || !this.nuevoEmail()) return;
 
     const idEdicion = this.usuarioEnEdicionId();
 
@@ -93,40 +92,43 @@ export class UsuariosComponent {
       this.usuariosLista.update(lista => 
         lista.map(u => u.id === idEdicion ? { 
           ...u, 
-          nombre: this.nuevoNombre(), 
-          correo: this.nuevoCorreo(), 
-          rol: this.nuevoRol() 
+          name: this.nuevoName(), 
+          email: this.nuevoEmail(), 
+          role: this.nuevoRole() 
         } : u)
       );
     } else {
-      // SI ES NUEVO: Agrega al array normalmente
+      // SI ES NUEVO: Agrega al array con las propiedades oficiales
       const nuevoUsuario: Usuario = {
-        id: this.usuariosLista().length + 1,
-        nombre: this.nuevoNombre(),
-        correo: this.nuevoCorreo(),
-        rol: this.nuevoRol(),
-        estado: 'Activo'
+        id: (this.usuariosLista().length + 1).toString(),
+        name: this.nuevoName(),
+        email: this.nuevoEmail(),
+        role: this.nuevoRole(),
+        is_active: true
       };
       this.usuariosLista.update(lista => [...lista, nuevoUsuario]);
     }
 
-    // Limpieza total del formulario al finalizar
-    this.nuevoNombre.set('');
-    this.nuevoCorreo.set('');
-    this.nuevoRol.set('Estudiante');
-    this.usuarioEnEdicionId.set(null); 
-    this.mostrarFormulario.set(false);
+    this.limpiarFormulario();
   }
 
   editarUsuario(usuario: Usuario) {
     this.mostrarFormulario.set(true);
-    this.nuevoNombre.set(usuario.nombre);
-    this.nuevoCorreo.set(usuario.correo);
-    this.nuevoRol.set(usuario.rol);
+    this.nuevoName.set(usuario.name);
+    this.nuevoEmail.set(usuario.email);
+    this.nuevoRole.set(usuario.role);
     this.usuarioEnEdicionId.set(usuario.id); // Guardamos el ID para saber quién se edita
   }
 
-  eliminarUsuario(id: number) {
+  eliminarUsuario(id: string) {
     this.usuariosLista.update(lista => lista.filter(u => u.id !== id));
+  }
+
+  limpiarFormulario() {
+    this.nuevoName.set('');
+    this.nuevoEmail.set('');
+    this.nuevoRole.set('Estudiante');
+    this.usuarioEnEdicionId.set(null); 
+    this.mostrarFormulario.set(false);
   }
 }

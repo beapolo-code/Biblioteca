@@ -1,126 +1,118 @@
-<div class="w-full bg-[#f8fafc] min-h-screen p-4 sm:p-6 font-sans">
-  <!-- Contenedor Principal Estilo Institucional Yavirac (Sin sombras gigantes, bordes limpios) -->
-  <div class="w-full max-w-7xl mx-auto bg-white border border-[#cbd5e1] rounded-md overflow-hidden">
+<div class="p-6 max-w-7xl mx-auto w-full bg-slate-100 min-h-screen">
+  <!-- Tarjeta Estilo Yavirac con bordes redondeados y sombra fuerte -->
+  <div class="bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-slate-300">
     
-    <!-- Barra Superior Azul Yavirac -->
-    <div class="bg-[#0f4c81] px-5 py-4 border-b-2 border-[#0b3a63]">
-      <h2 class="text-lg font-bold text-white m-0 tracking-wide uppercase text-sm sm:text-base flex items-center gap-2">
-        <svg xmlns="http://w3.org" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-        Administración / Gestión de Usuarios
-      </h2>
+    <!-- Encabezado Azul Institucional Yavirac -->
+    <div class="bg-blue-900 px-6 py-5 border-b-4 border-blue-950">
+      <h2 class="text-2xl font-bold text-white m-0 tracking-wide">Gestión de Usuarios - Biblioteca Digital</h2>
     </div>
 
-    <div class="p-5">
+    <div class="p-6">
       
-      <!-- Zona de Filtros y Acciones -->
-      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-5 pb-4 border-b border-[#e2e8f0]">
-        <mat-form-field appearance="outline" class="w-full sm:flex-1 m-0 text-xs Yavirac-input">
-          <mat-label class="text-[#334155] font-semibold">Filtrar por nombre, correo o rol...</mat-label>
-          <input matInput (input)="buscarUsuario($event)" placeholder="Escriba para buscar..." class="text-[#0f172a] font-medium">
+      <!-- Buscador y Botón alineados correctamente -->
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+        <mat-form-field appearance="outline" class="w-full sm:flex-1 m-0 font-medium">
+          <mat-label class="text-slate-900 font-bold text-sm">Buscar usuario por nombre o rol...</mat-label>
+          <input matInput (input)="buscarUsuario($event)" placeholder="Ej. Alexander o Administrador" class="text-slate-900 font-semibold">
         </mat-form-field>
 
-        <!-- Botón Azul Plano Oficial -->
-        <button (click)="conmutarFormulario()" class="h-10 px-5 rounded bg-[#0f4c81] text-white text-xs font-bold uppercase hover:bg-[#0b3a63] transition-colors flex items-center justify-center gap-2 whitespace-nowrap min-w-[150px] border-none cursor-pointer tracking-wider shadow-sm">
-          <svg xmlns="http://w3.org" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+        <button (click)="conmutarFormulario()" class="h-12 px-6 rounded-xl flex items-center justify-center gap-2 bg-blue-900 text-white font-bold hover:bg-blue-950 transition-colors shadow-md whitespace-nowrap min-w-[160px] text-sm tracking-wide">
+          <svg xmlns="http://w3.org" class="h-5 w-5 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
           </svg>
           <span>{{ mostrarFormulario() ? 'Cancelar' : 'Nuevo Usuario' }}</span>
         </button>
       </div>
 
-      <!-- Formulario de Registro Estilo Panel Yavirac -->
+      <!-- Formulario de Registro Dinámico con Signals -->
       @if (mostrarFormulario()) {
-        <div class="bg-[#f1f5f9] border-t-4 border-[#0f4c81] p-5 mb-5 rounded shadow-sm border border-[#e2e8f0]">
-          <h3 class="text-sm font-bold text-[#1e293b] uppercase tracking-wider mb-4 flex items-center gap-2">
-            Formulario de Registro
-          </h3>
+        <div class="bg-slate-100 border-l-4 border-blue-900 p-6 mb-6 rounded-r-xl shadow-md border border-slate-300">
+          <h3 class="text-lg font-bold text-slate-900 mb-4">Registrar Nuevo Usuario</h3>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            <mat-form-field appearance="fill" class="w-full text-xs">
-              <mat-label class="text-[#475569] font-medium">Nombre Completo</mat-label>
-              <input matInput [value]="nuevoNombre()" (input)="nuevoNombre.set($any($event.target).value)">
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label class="text-slate-800 font-semibold">Nombre Completo</mat-label>
+              <input matInput [value]="nuevoName()" (input)="nuevoName.set($any($event.target).value)" class="text-slate-900 font-medium">
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="w-full text-xs">
-              <mat-label class="text-[#475569] font-medium">Correo Electrónico</mat-label>
-              <input matInput type="email" [value]="nuevoCorreo()" (input)="nuevoCorreo.set($any($event.target).value)">
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label class="text-slate-800 font-semibold">Correo Electrónico</mat-label>
+              <input matInput type="email" [value]="nuevoEmail()" (input)="nuevoEmail.set($any($event.target).value)" class="text-slate-900 font-medium">
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="w-full text-xs">
-              <mat-label class="text-[#475569] font-medium">Rol del Usuario</mat-label>
-              <mat-select [value]="nuevoRol()" (selectionChange)="nuevoRol.set($event.value)">
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label class="text-slate-800 font-semibold">Rol de Usuario</mat-label>
+              <mat-select [value]="nuevoRole()" (selectionChange)="nuevoRole.set($event.value)" class="text-slate-900 font-medium">
                 <mat-option value="Administrador">Administrador</mat-option>
                 <mat-option value="Estudiante">Estudiante</mat-option>
                 <mat-option value="Profesor">Profesor</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
-          <button (click)="guardarUsuario()" class="h-9 px-4 rounded bg-[#16a34a] text-white text-xs font-bold uppercase hover:bg-[#15803d] transition-colors flex items-center justify-center gap-1 border-none cursor-pointer tracking-wider shadow-sm">
-            <svg xmlns="http://w3.org" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <button (click)="guardarUsuario()" class="h-11 px-5 rounded-xl bg-emerald-700 text-white font-bold hover:bg-emerald-800 transition-colors flex items-center justify-center gap-2 shadow-sm text-sm">
+            <svg xmlns="http://w3.org" class="h-5 w-5 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
             </svg>
-            Guardar Información
+            Confirmar Registro
           </button>
         </div>
       }
 
-      <!-- Tabla Estilo Cuadrícula Institucional (Líneas sólidas, textos estables) -->
-      <div class="w-full overflow-x-auto border border-[#cbd5e1] rounded">
-        <table mat-table [dataSource]="usuariosFiltrados" class="w-full bg-white Yavirac-table">
+      <!-- Rejilla Responsiva para la Tabla -->
+      <div class="w-full overflow-x-auto border-2 border-slate-300 rounded-xl shadow-md">
+        <table mat-table [dataSource]="usuariosFiltrados" class="w-full bg-white">
 
-          <!-- ID -->
+          <!-- Columna ID -->
           <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef class="bg-[#f8fafc] text-[#1e293b] font-bold p-3 text-xs border-b border-[#cbd5e1] text-center w-16 uppercase"> N° </th>
-            <td mat-cell *matCellDef="let usuario" class="p-3 border-b border-[#e2e8f0] text-[#475569] text-xs text-center font-mono"> {{usuario.id}} </td>
+            <th mat-header-cell *matHeaderCellDef class="bg-slate-100 text-slate-900 font-black p-4 text-sm border-b-2 border-slate-300 uppercase tracking-wider">ID</th>
+            <td mat-cell *matCellDef="let usuario" class="p-4 border-b border-slate-200 text-slate-900 font-bold text-sm"> {{usuario.id}} </td>
           </ng-container>
 
-          <!-- Nombre -->
-          <ng-container matColumnDef="nombre">
-            <th mat-header-cell *matHeaderCellDef class="bg-[#f8fafc] text-[#1e293b] font-bold p-3 text-xs border-b border-[#cbd5e1] uppercase"> Nombre Completo </th>
-            <td mat-cell *matCellDef="let usuario" class="p-3 border-b border-[#e2e8f0] font-semibold text-[#0f172a] text-xs"> {{usuario.nombre}} </td>
+          <!-- Columna Nombre -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="bg-slate-100 text-slate-900 font-black p-4 text-sm border-b-2 border-slate-300 uppercase tracking-wider"> Nombre </th>
+            <td mat-cell *matCellDef="let usuario" class="p-4 border-b border-slate-200 font-black text-slate-950 text-base"> {{usuario.name}} </td>
           </ng-container>
 
-          <!-- Correo -->
-          <ng-container matColumnDef="correo">
-            <th mat-header-cell *matHeaderCellDef class="bg-[#f8fafc] text-[#1e293b] font-bold p-3 text-xs border-b border-[#cbd5e1] uppercase"> Dirección de Correo </th>
-            <td mat-cell *matCellDef="let usuario" class="p-3 border-b border-[#e2e8f0] text-[#334155] text-xs"> {{usuario.correo}} </td>
+          <!-- Columna Correo -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef class="bg-slate-100 text-slate-900 font-black p-4 text-sm border-b-2 border-slate-300 uppercase tracking-wider"> Correo </th>
+            <td mat-cell *matCellDef="let usuario" class="p-4 border-b border-slate-200 text-slate-900 font-semibold text-sm"> {{usuario.email}} </td>
           </ng-container>
 
-          <!-- Rol -->
-          <ng-container matColumnDef="rol">
-            <th mat-header-cell *matHeaderCellDef class="bg-[#f8fafc] text-[#1e293b] font-bold p-3 text-xs border-b border-[#cbd5e1] uppercase"> Rol Asignado </th>
-            <td mat-cell *matCellDef="let usuario" class="p-3 border-b border-[#e2e8f0] text-[#475569] text-xs font-medium"> {{usuario.rol}} </td>
+          <!-- Columna Rol -->
+          <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef class="bg-slate-100 text-slate-900 font-black p-4 text-sm border-b-2 border-slate-300 uppercase tracking-wider"> Rol </th>
+            <td mat-cell *matCellDef="let usuario" class="p-4 border-b border-slate-200 text-slate-900 font-bold text-sm"> {{usuario.role}} </td>
           </ng-container>
 
-          <!-- Estado -->
-          <ng-container matColumnDef="estado">
-            <th mat-header-cell *matHeaderCellDef class="bg-[#f8fafc] text-[#1e293b] font-bold p-3 text-xs border-b border-[#cbd5e1] text-center uppercase"> Estado </th>
-            <td mat-cell *matCellDef="let usuario" class="p-3 border-b border-[#e2e8f0] text-center">
-              @if (usuario.estado === 'Activo') {
-                <span class="inline-block px-2.5 py-1 text-[10px] font-bold uppercase rounded bg-[#dcfce7] text-[#166534] border border-[#bbf7d0]">Activo</span>
+          <!-- Columna Estado -->
+          <ng-container matColumnDef="is_active">
+            <th mat-header-cell *matHeaderCellDef class="bg-slate-100 text-slate-900 font-black p-4 text-sm border-b-2 border-slate-300 uppercase tracking-wider"> Estado </th>
+            <td mat-cell *matCellDef="let usuario" class="p-4 border-b border-slate-200 text-sm">
+              @if (usuario.is_active) {
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-green-200 text-green-900 border border-green-400">Activo</span>
               } @else {
-                <span class="inline-block px-2.5 py-1 text-[10px] font-bold uppercase rounded bg-[#fee2e2] text-[#991b1b] border border-[#fecaca]">Inactivo</span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-red-200 text-red-900 border border-red-400">Inactivo</span>
               }
             </td>
           </ng-container>
 
-          <!-- Acciones -->
+          <!-- Columna Acciones -->
           <ng-container matColumnDef="acciones">
-            <th mat-header-cell *matHeaderCellDef class="bg-[#f8fafc] text-[#1e293b] font-bold p-3 text-xs border-b border-[#cbd5e1] text-center w-28 uppercase"> Opciones </th>
-            <td mat-cell *matCellDef="let usuario" class="p-3 border-b border-[#e2e8f0] text-center w-28">
-              <div class="flex items-center justify-center gap-2">
+            <th mat-header-cell *matHeaderCellDef class="bg-slate-100 text-slate-900 font-black p-4 text-sm border-b-2 border-slate-300 uppercase tracking-wider text-center w-32"> Acciones </th>
+            <td mat-cell *matCellDef="let usuario" class="p-4 border-b border-slate-200 text-center w-32">
+              <div class="flex items-center justify-center gap-3">
                 
-                <!-- Botón Editar Plano -->
-                <button type="button" title="Modificar Registro" (click)="editarUsuario(usuario)" class="w-8 h-8 flex items-center justify-center bg-white text-[#0f4c81] rounded border border-[#cbd5e1] hover:bg-[#f1f5f9] transition-colors cursor-pointer shadow-sm">
-                  <svg xmlns="http://w3.org" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                <!-- Botón Editar -->
+                <button type="button" title="Editar" (click)="editarUsuario(usuario)" class="w-9 h-9 flex items-center justify-center bg-blue-100 text-blue-900 rounded-full hover:bg-blue-200 transition-colors border-2 border-blue-400 cursor-pointer shadow-sm">
+                  <svg xmlns="http://w3.org" class="h-5 w-5 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                   </svg>
                 </button>
 
-                <!-- Botón Eliminar Plano -->
-                <button type="button" title="Eliminar Registro" (click)="eliminarUsuario(usuario.id)" class="w-8 h-8 flex items-center justify-center bg-white text-[#dc2626] rounded border border-[#fca5a5] hover:bg-[#fef2f2] transition-colors cursor-pointer shadow-sm">
-                  <svg xmlns="http://w3.org" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <!-- Botón Eliminar -->
+                <button type="button" title="Eliminar" class="w-9 h-9 flex items-center justify-center bg-red-100 text-red-900 rounded-full hover:bg-red-200 transition-colors border-2 border-red-400 cursor-pointer shadow-sm" (click)="eliminarUsuario(usuario.id)">
+                  <svg xmlns="http://w3.org" class="h-5 w-5 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                   </svg>
                 </button>
@@ -130,12 +122,13 @@
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="hover:bg-[#f8fafc] border-b border-[#e2e8f0] transition-colors"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="hover:bg-slate-100/70 border-b border-slate-200 transition-colors"></tr>
 
+          <!-- Mensaje Dinámico de Búsqueda Vacía -->
           @if (usuariosFiltrados.length === 0) {
             <tr class="mat-row">
-              <td class="mat-cell text-center p-6 text-[#64748b] font-medium bg-[#fafafa] text-xs" colspan="6">
-                Sistemas Yavirac: No se encontraron registros coincidentes.
+              <td class="mat-cell text-center p-8 text-slate-600 font-bold italic text-sm bg-slate-50" colspan="6">
+                No se encontraron usuarios que coincidan con la búsqueda.
               </td>
             </tr>
           }
@@ -145,4 +138,3 @@
     </div>
   </div>
 </div>
- 
