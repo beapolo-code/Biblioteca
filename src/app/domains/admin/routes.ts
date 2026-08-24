@@ -37,6 +37,11 @@ const routes: Routes = [
         loadChildren: () => import('./modules/apps/contacts/routes'),
       },
       {
+        path: 'usuarios',
+        loadComponent: () => import('./modules/usuarios/usuarios').then(m => m.UsuariosComponent)
+
+      },
+      {
         path: 'file-manager',
         loadChildren: () => import('./modules/apps/file-manager/routes'),
       },

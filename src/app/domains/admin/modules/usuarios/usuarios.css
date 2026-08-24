@@ -1,0 +1,25 @@
+/* Quitar los estilos flotantes por defecto de Angular Material */
+.Yavirac-table {
+  box-shadow: none !important;
+  border-collapse: collapse !important;
+}
+
+/* Forzar que los inputs se vean compactos y rectos estilo formulario de gobierno */
+.Yavirac-input .mdc-text-field--outline {
+  border-radius: 4px !important;
+}
+
+/* Espaciados estrictos de celdas institucionales */
+th.mat-mdc-header-cell {
+  padding: 12px 16px !important;
+  letter-spacing: 0.03em;
+}
+
+td.mat-mdc-cell {
+  padding: 12px 16px !important;
+}
+
+/* Evitar que los botones de Angular Material agreguen bordes invisibles */
+button {
+  outline: none !important;
+}
