@@ -15,10 +15,10 @@ export type NavigationItem = {
 
 export const NAVIGATION: NavigationItem[] = [
   {
-  id: 'inicio',
-  label: 'Inicio',
-  icon: 'house',
-  route: '/admin/inicio',
+    id: 'inicio',
+    label: 'Inicio',
+    icon: 'house',
+    route: '/admin/inicio',
   },
   {
     id: 'dashboards',

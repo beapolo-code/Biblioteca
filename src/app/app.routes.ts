@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 
 export const routes: Route[] = [
+
   // Website routes
   {
     path: 'home',

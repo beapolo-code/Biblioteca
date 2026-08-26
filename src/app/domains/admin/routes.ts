@@ -8,13 +8,28 @@ const routes: Routes = [
     children: [
       // Redirect empty path to '/auth/sign-in'
       { path: '', pathMatch: 'full', redirectTo: '/auth/sign-in' },
+      {
+        path: 'inicio',
+        loadComponent: () =>
+          import('../../modules/inicio/inicio').then((m) => m.Inicio),
+      },
+      {
+        path: 'detalle-libro/:id',
+        loadComponent: () =>
+          import('../../modules/detalle-libro/detalle-libro').then(
+            (m) => m.DetalleLibro
+          ),
+      },
+      {
+          path: 'leer-libro/:id',
+          loadComponent: () =>
+            import('../../modules/leer-libro/leer-libro').then(
+              (m) => m.LeerLibro
+            ),       
+      },
       // -----------------------------------------------------------------------
       // Dashboards
       // -----------------------------------------------------------------------
-    { path: 'inicio',
-      loadComponent: () =>
-       import('../../modules/admin/inicio/inicio').then((m) => m.Inicio),
-    },
       {
         path: 'dashboards',
         loadChildren: () => import('./modules/dashboards/routes'),
