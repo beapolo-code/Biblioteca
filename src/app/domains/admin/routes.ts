@@ -14,6 +14,11 @@ const routes: Routes = [
           import('../../modules/inicio/inicio').then((m) => m.Inicio),
       },
       {
+        path: 'todos-libros',
+        loadComponent: () =>
+          import('../../modules/todos-libros/todos-libros').then((m) => m.TodosLibros),
+      },
+      {
         path: 'detalle-libro/:id',
         loadComponent: () =>
           import('../../modules/detalle-libro/detalle-libro').then(
