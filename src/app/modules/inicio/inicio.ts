@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -7,6 +7,32 @@ import { RouterLink } from '@angular/router';
   templateUrl: './inicio.html',
 })
 export class Inicio {
+   @ViewChild('contenedorLibros')
+  contenedorLibros!: ElementRef;
+  @ViewChild('contenedorRecientes')
+  contenedorRecientes!: ElementRef;
+  @ViewChild('contenedorVideos')
+  contenedorVideos!: ElementRef;
+
+  desplazarLibros(direccion: number) {
+    this.contenedorLibros.nativeElement.scrollBy({
+      left: direccion * 400,
+      behavior: 'smooth'
+    });
+  }
+  desplazarRecientes(direccion: number) {
+  this.contenedorRecientes.nativeElement.scrollBy({
+    left: direccion * 400,
+    behavior: 'smooth'
+  });
+}
+
+desplazarVideos(direccion: number) {
+  this.contenedorVideos.nativeElement.scrollBy({
+    left: direccion * 400,
+    behavior: 'smooth'
+  });
+}
 
   librosMasLeidos = [
     {
