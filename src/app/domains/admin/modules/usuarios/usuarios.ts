@@ -11,9 +11,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 
-// INTERFAZ OFICIAL CON LOS CAMPOS EXACTOS DE POSTGRES
+// INTERFAZ OFICIAL CON LOS CAMPOS EXACTOS DE POSTGRES (CORREGIDA)
 interface Usuario {
-  id: string;          
+  id: string;              // Mapea con el tipo 'uuid' de Postgres
+  id_temp?: string | null; // Mapea con 'id_temp' (permite nulos en tu BD)
   name: string;        
   email: string;       
   role: string;        
@@ -42,11 +43,11 @@ export class UsuariosComponent {
   // Columnas oficiales que se van a mapear en el HTML
   displayedColumns: string[] = ['id', 'name', 'email', 'role', 'is_active', 'acciones'];
 
-  // DATOS DINÁMICOS ADAPTADOS A LOS CAMPOS REALES DE POSTGRES
+  // DATOS DINÁMICOS ADAPTADOS A LOS CAMPOS REALES DE POSTGRES (CON UUIDS VÁLIDOS)
   usuariosLista = signal<Usuario[]>([
-    { id: '1', name: 'Alexander García', email: 'alexander6621@gmail.com', role: 'Administrador', is_active: true },
-    { id: '2', name: 'María López', email: 'mlopez@dominio.com', role: 'Estudiante', is_active: true },
-    { id: '3', name: 'Carlos Ruiz', email: 'cruiz@dominio.com', role: 'Estudiante', is_active: false }
+    { id: '111e4567-e89b-12d3-a456-426614174000', id_temp: null, name: 'Alexander García', email: 'alexander6621@gmail.com', role: 'Administrador', is_active: true },
+    { id: '222e4567-e89b-12d3-a456-426614174001', id_temp: null, name: 'María López', email: 'mlopez@dominio.com', role: 'Estudiante', is_active: true },
+    { id: '333e4567-e89b-12d3-a456-426614174002', id_temp: null, name: 'Carlos Ruiz', email: 'cruiz@dominio.com', role: 'Estudiante', is_active: false }
   ]);
 
   filtroBusqueda = signal<string>('');
@@ -98,9 +99,10 @@ export class UsuariosComponent {
         } : u)
       );
     } else {
-      // SI ES NUEVO: Agrega al array con las propiedades oficiales
+      // SI ES NUEVO: Agrega al array generando un UUID nativo compatible con Postgres
       const nuevoUsuario: Usuario = {
-        id: (this.usuariosLista().length + 1).toString(),
+        id: crypto.randomUUID(), 
+        id_temp: null, 
         name: this.nuevoName(),
         email: this.nuevoEmail(),
         role: this.nuevoRole(),
