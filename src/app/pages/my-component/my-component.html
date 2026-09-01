@@ -1,52 +1,140 @@
 <div class="p-6">
 
-    <!-- TÍTULO -->
-    <div class="mb-6">
+```
+<!-- ENCABEZADO -->
+<div class="mb-8">
 
-        <h1 class="text-3xl font-bold">
-            Categorías
-        </h1>
+    <button
+        mat-button
+        (click)="volver()"
+        class="mb-4"
+    >
+        <mat-icon>arrow_back</mat-icon>
+        Volver a categorías
+    </button>
 
-        <p class="text-secondary">
-            Selecciona una categoría para ver sus libros
-        </p>
+    <div class="flex items-end justify-between gap-4">
+
+        <div>
+            <h1 class="text-3xl font-bold">
+                {{ categoria() }}
+            </h1>
+
+            <p class="mt-1 text-secondary">
+                Libros disponibles en esta categoría
+            </p>
+        </div>
+
+        <div class="rounded-full bg-gray-100 px-4 py-2 text-sm">
+            {{ filteredBooks.length }}
+            {{ filteredBooks.length === 1 ? 'libro' : 'libros' }}
+        </div>
 
     </div>
 
+</div>
 
-    <!-- CATEGORÍAS -->
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
 
-        @for (category of categories(); track category) {
+<!-- LIBROS -->
+@if (filteredBooks.length > 0) {
 
-            <button
-                mat-stroked-button
-                class="h-auto min-h-24 justify-start p-4 text-left"
-                (click)="goToCategory(category)"
-            >
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
-                <div class="flex items-center gap-3">
+        @for (book of filteredBooks; track book.title) {
 
-                    <span class="text-4xl">📁</span>
+            <div class="overflow-hidden rounded-xl border bg-card shadow-sm transition-shadow hover:shadow-lg">
 
-                    <div>
+                <!-- PORTADA -->
+                <div class="flex h-56 items-center justify-center bg-gray-100">
 
-                        <div class="font-semibold">
-                            {{ category }}
-                        </div>
+                    <div class="flex flex-col items-center text-center">
 
-                        <div class="text-sm text-secondary">
-                            Ver libros
-                        </div>
+                        <mat-icon class="!h-20 !w-20 !text-7xl">
+                            menu_book
+                        </mat-icon>
+
+                        <span class="mt-2 text-sm text-secondary">
+                            Biblioteca Yavirac
+                        </span>
 
                     </div>
 
                 </div>
 
-            </button>
+
+                <!-- INFORMACIÓN -->
+                <div class="p-5">
+
+                    <div class="mb-3 flex items-center gap-2">
+
+                        <span class="rounded-full bg-gray-100 px-2 py-1 text-xs">
+                            {{ book.format }}
+                        </span>
+
+                        <span class="text-xs text-secondary">
+                            {{ book.year }}
+                        </span>
+
+                    </div>
+
+
+                    <h2 class="line-clamp-2 min-h-12 text-lg font-semibold">
+                        {{ book.title }}
+                    </h2>
+
+
+                    <p class="mt-2 text-sm text-secondary">
+                        {{ book.author }}
+                    </p>
+
+
+                    <button
+                        mat-flat-button
+                        color="primary"
+                        class="mt-5 w-full"
+                    >
+                        <mat-icon>visibility</mat-icon>
+                        Ver libro
+                    </button>
+
+                </div>
+
+            </div>
 
         }
 
     </div>
+
+}
+
+@else {
+
+    <!-- SIN LIBROS -->
+    <div class="rounded-xl border p-12 text-center">
+
+        <mat-icon class="!h-16 !w-16 !text-6xl">
+            menu_book
+        </mat-icon>
+
+        <h2 class="mt-4 text-xl font-semibold">
+            No hay libros
+        </h2>
+
+        <p class="mt-1 text-secondary">
+            Esta categoría todavía no tiene libros registrados.
+        </p>
+
+        <button
+            mat-button
+            class="mt-4"
+            (click)="volver()"
+        >
+            Volver a categorías
+        </button>
+
+    </div>
+
+}
+```
 
 </div>
