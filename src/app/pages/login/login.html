@@ -1,0 +1,75 @@
+<div
+  class="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat relative"
+  style="
+  background-image: url('src/app/pages/assets/fondo.jpg');
+  "
+>
+  <div class="absolute inset-0 bg-black/20"></div>
+  <div class="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 py-10 flex justify-center">
+    <div
+      class="w-full max-w-[390px] rounded-3xl bg-black/85 backdrop-blur-xl border border-white/10 shadow-2xl p-7 md:p-8 text-white"
+    >
+      <!-- TITULO -->
+      <div class="text-center mb-7">
+        <h1 class="text-2xl font-bold">Bienvenido</h1>  
+        <h1 class="mt-2 text-xl text-white/80">Accede a tu biblioteca digital</h1>
+      </div>
+      <form (click)="iniciarSesion()">
+        <!-- CORREO -->
+        <div class="mb-5">
+          <label for="email" class="block mb-2 text-[11px] font-semibold text-white/80">
+            Correo electronico
+          </label>
+          <input
+            type="email"
+            [(ngModel)]="correo" name="correo"
+            placeholder="Ingresar correo"
+            class="w-full rounded-xl border border-white/80 bg-white/10 px-4 py-3 text-white placeholder:text-white/80 outline-none"
+          >
+        </div>
+        <!-- CONTRASEÑA -->
+        <div class="mb-4">
+          <label for="password" class="block mb-2 text-[11px] font-medium text-white/80">
+            Contraseña
+          </label>
+          <input
+            type="password"
+            [(ngModel)]="password" name="password"
+            placeholder="Ingresar contraseña"
+            class="w-full rounded-xl border border-white/80 bg-white/10 px-4 py-3 text-white placeholder:text-white/80 outline-none"
+          >
+        </div>
+        <!-- RECORDAR / RECUPERAR -->
+        <div class="flex items-center justify-between mb-6">
+          <label class="flex items-center gap-2 text-[10px] text-white/60 cursor-pointer">
+            <input type="checkbox" class="w-3.5 h-3.5 accent-blue-400">
+            Recordarme
+          </label>
+          <a
+            routerLink="/forgot-password"
+            class="text-[10px] font-semibold text-blue-400 hover:text-blue-300 transition cursor-pointer"
+          >
+            ¿Olvidaste tu contraseña?
+          </a>
+        </div>
+        <!-- BOTON LOGIN -->
+        <button
+          type="submit"
+          class="w-full rounded-xl bg-gradient-to-r from-orange-500 to-blue-700 py-3 text-white font-bold shadow-lg hover:brightness-110 transition"
+        >
+          Iniciar sesion
+      </button>
+      </form>
+      <!-- REGISTRO -->
+      <div class="mt-6 pt-5 border-t border-white/10 text-center">
+        <p class="text-[10px] text-white/50">¿No tienes una cuenta?</p>
+        <a
+          routerLink="/register"
+          class="inline-block mt-2 text-xs font-bold text-blue-400 hover:text-blue-300 transition cursor-pointer"
+        >
+          Crear una cuenta
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
