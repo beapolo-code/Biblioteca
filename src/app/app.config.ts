@@ -1,4 +1,7 @@
-import { provideHttpClient } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
 import {
   ApplicationConfig,
   isDevMode,
@@ -17,11 +20,13 @@ import { provideIcons } from '@/app/core/icons/provider';
 import { provideTheming } from '@/app/core/theming';
 import { TranslocoHttpLoader } from '@/app/core/transloco/transloco-http-loader';
 import { routes } from './app.routes';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([authInterceptor])),
     provideClientHydration(),
     provideRouter(
       routes,
