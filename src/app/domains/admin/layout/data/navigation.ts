@@ -14,6 +14,9 @@ export type NavigationItem = {
 };
 
 export const NAVIGATION: NavigationItem[] = [
+  // -----------------------------------------------------------------------
+  // Dashboards
+  // -----------------------------------------------------------------------
   {
     id: 'dashboards',
     label: 'Dashboards',
@@ -39,20 +42,10 @@ export const NAVIGATION: NavigationItem[] = [
       },
     ],
   },
-  {
-    id: 'pages',
-    label: 'Pages',
-    description: 'Commonly used apps',
-    children: [
-      {
-    id: 'pages/categorias',
-    label: 'Categorías',
-    icon: 'folder',
-    route: '/pages/categorias',
-    activeOptions: { exact: false },
-      },
-    ],
-  },
+
+  // -----------------------------------------------------------------------
+  // General
+  // -----------------------------------------------------------------------
   {
     id: 'general',
     label: 'General',
@@ -138,6 +131,10 @@ export const NAVIGATION: NavigationItem[] = [
       },
     ],
   },
+
+  // -----------------------------------------------------------------------
+  // Extras
+  // -----------------------------------------------------------------------
   {
     id: 'extras',
     label: 'Extras',
@@ -157,6 +154,18 @@ export const NAVIGATION: NavigationItem[] = [
         route: '/admin/profile',
         activeOptions: { exact: false },
       },
+
+      // -------------------------------------------------------------------
+      // FAVORITOS
+      // -------------------------------------------------------------------
+      {
+        id: 'extras/favorites',
+        label: 'Favoritos',
+        icon: 'heart',
+        route: '/admin/favoritos',
+        activeOptions: { exact: false },
+      },
+
       {
         id: 'extras/settings',
         label: 'Settings',
@@ -215,6 +224,10 @@ export const NAVIGATION: NavigationItem[] = [
       },
     ],
   },
+
+  // -----------------------------------------------------------------------
+  // Documentation
+  // -----------------------------------------------------------------------
   {
     id: 'documentation',
     label: 'Documentation',

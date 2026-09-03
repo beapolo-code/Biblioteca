@@ -1,25 +1,6 @@
 import { Route } from '@angular/router';
-import { MyComponent } from '@/app/pages/my-component/my-component';
-import { AdminLayout } from '@/app/domains/admin/layout/layout';
 
 export const routes: Route[] = [
-  {
-    path: 'pages',
-    component: AdminLayout,
-    children: [
-        {
-            path: 'categorias',
-            component: MyComponent,
-        },
-        {
-            path: 'categorias/:categoria',
-            loadComponent: () =>
-                import('@/app/pages/libros-categoria/libros-categoria')
-                    .then(m => m.LibrosCategoria),
-        },
-    ],
-},
-
   // Website routes
   {
     path: 'home',
@@ -38,7 +19,6 @@ export const routes: Route[] = [
     pathMatch: 'full',
     redirectTo: 'admin',
   },
-
   {
     path: 'admin',
     loadChildren: () => import('./domains/admin/routes'),

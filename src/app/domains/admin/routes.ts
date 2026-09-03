@@ -85,6 +85,10 @@ const routes: Routes = [
         loadChildren: () => import('./modules/extras/notifications/routes'),
       },
       {
+        path: 'favoritos',
+        loadChildren: () => import('./modules/extras/favorites/routes'),
+      },
+      {
         path: 'error',
         loadChildren: () => import('./modules/extras/error/routes'),
       },
